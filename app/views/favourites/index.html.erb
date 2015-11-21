@@ -1,0 +1,11 @@
+<h1>Favourited Projects</h1>
+<div>
+  <% @favourites.each do |f| %>
+    <div class="well">
+        <% p = f.project %>
+        <%= p.title %>
+        <%= link_to "Show", project_path(p), class: "btn btn-primary btn-sm pull-right" %>
+        <div class="pull-right owned"><%= "#{pluralize(p.tasks.length, "Task")}, #{pluralize(p.discussions.length, "Discussion")}" %></div>
+    </div>
+  <% end %>
+</div>

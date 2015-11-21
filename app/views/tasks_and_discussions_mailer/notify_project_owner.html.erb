@@ -1,0 +1,27 @@
+<p>Hello <%= @owner.full_name %>,</p>
+<p>Here are todays new tasks and discussions for your projects.</p>
+<% @owner.projects.each do |p| %>
+  <% project_tasks = @all_tasks_today.where(project: p) %>
+  <% project_discussions = @all_discussions_today.where(project: p) %>
+  <% if project_tasks.present? || project_discussions.present?%>
+    <p>Project title: <%= p.title %></p>
+  <% end %>
+  <% if project_tasks.present? %>
+    <p>Tasks:</p>
+    <ul>
+    <% project_tasks.each do |task| %>
+        <li><%= task.user.full_name %>: <%= task.title %></li>
+    <% end %>
+    </ul>
+  <% end %>
+  <% if project_discussions.present? %>
+    <p>Discussions:</p>
+    <ul>
+    <% project_discussions.each do |discussion| %>
+        <li><%= discussion.user.full_name %>: <%= discussion.title %></li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>
+<p>Regards,</p>
+<p>Project Manager Team</p>

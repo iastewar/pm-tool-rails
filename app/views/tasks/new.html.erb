@@ -1,0 +1,17 @@
+<h1>Add a Task</h1>
+<%= @task.errors.full_messages.join(", ") %>
+<%= form_for [@p, @task] do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, value: @task.title, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :due_date %>
+    <%= f.datetime_local_field :due_date, value: @task.due_date, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :body %>
+    <%= f.text_area :body, value: @task.body, class: "form-control" %>
+  </div>
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>
