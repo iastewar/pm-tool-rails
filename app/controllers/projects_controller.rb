@@ -21,6 +21,8 @@ class ProjectsController < ApplicationController
     @tasks_not_done = @p.tasks.where(done: false)
     @task = Task.new
     @members = @p.member_users
+    @assets = @p.assets.order(created_at: :desc)
+    @asset = Asset.new
   end
 
   def edit

@@ -1,0 +1,5 @@
+$("#<%= dom_id(@task) %>").replaceWith("<%= j(render('/tasks/task', {task: @task})) %>");
+$("#<%= dom_id(@task) %>").append("<%= j render '/tasks/show' %>");
+$("#show_<%= dom_id(@task) %>").show();
+$("#show_button_<%= dom_id(@task) %>").html("Hide");
+$("#<%= dom_id(@task) %> .time").hide();

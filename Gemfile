@@ -9,6 +9,11 @@ gem 'cancancan', '~> 1.10'
 gem "font-awesome-rails"
 gem 'delayed_job_active_record'
 gem "delayed_job_web"
+gem 'carrierwave'
+gem 'mini_magick'
+gem "fog"
+gem 'simple_form'
+gem 'friendly_id'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'

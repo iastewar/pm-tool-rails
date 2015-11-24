@@ -1,0 +1,8 @@
+if ($("#edit_task_<%= dom_id(@task) %>").length === 0) {
+  $("#edit_task_container_<%= dom_id(@task) %>").append("<%= j render '/tasks/form_edit' %>");
+  $("#edit_task_<%= dom_id(@task) %>").slideDown();
+} else {
+  $("#edit_task_<%= dom_id(@task) %>").slideUp(function() {
+    this.remove();
+  });
+}

@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117190131) do
+ActiveRecord::Schema.define(version: 20151124050711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assets", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "assets", ["project_id"], name: "index_assets_on_project_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.text     "body"
@@ -127,6 +136,7 @@ ActiveRecord::Schema.define(version: 20151117190131) do
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
 
+  add_foreign_key "assets", "projects"
   add_foreign_key "comments", "discussions"
   add_foreign_key "comments", "users"
   add_foreign_key "discussions", "projects"

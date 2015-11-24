@@ -1,0 +1,14 @@
+<div id="task_list">
+  <h4>Not Done</h4>
+  <div id="tasks_not_done">
+    <% @tasks_not_done.each do |task| %>
+      <%= render "tasks/task", task: task %>
+    <% end %>
+  </div>
+  <h4>Done</h4>
+  <div id="tasks_done">
+    <% @tasks_done.each do |task| %>
+      <%= render "tasks/task", task: task %>
+    <% end %>
+  </div>
+</div>

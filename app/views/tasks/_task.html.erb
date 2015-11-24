@@ -1,0 +1,5 @@
+<div class="well" id="<%= dom_id(task) %>">
+  <%= task.title %>
+  <%= link_to "Show", project_task_path(@p, task), class: "btn btn-primary btn-sm pull-right", id: "show_button_#{dom_id(task)}", remote: true%>
+  <div class="time pull-right">Due: <%= task.due_date.to_formatted_s(:short) if task.due_date%></div>
+</div>

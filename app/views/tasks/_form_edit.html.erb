@@ -1,0 +1,9 @@
+<div id="edit_task_<%= dom_id(@task) %>" style="display: none;">
+  <h1>Edit Task</h1>
+  <%= simple_form_for [@p, @task], remote: true do |f| %>
+    <%= f.input :title %>
+    <%= f.input :due_date %>
+    <%= f.input :body %>
+    <%= f.submit class: "btn btn-primary" %>
+  <% end %>
+</div>

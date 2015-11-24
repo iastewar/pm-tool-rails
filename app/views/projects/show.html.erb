@@ -16,7 +16,24 @@
   <% end %>
 <% end %>
 
+<h2>Assets</h2>
+<% @assets.each do |asset| %>
+  <div class="well">
+    <%#= image_tag asset.file.url %>
+    <%= asset.file %>
+    <% if can? :destroy, asset %>
+      <%= link_to "Delete", post_asset_path(@p, asset), method: :delete, class: "btn btn-danger pull-right", data: {confirm: "Are you sure?"}%>
+    <% end %>
+  </div>
+<% end %>
+
+
 <% if can? :edit, @p %>
+  <h4>Add an Asset</h4>
+  <%= simple_form_for [@p, @asset] do |f| %>
+    <%= f.input :file %>
+    <%= f.submit class: "btn btn-primary" %>
+  <% end %>
   <%= link_to "Edit", edit_project_path(@p), class: "btn btn-info btn-sm" %>
 <% end %>
 <% if can? :destroy, @p %>
@@ -43,37 +60,11 @@
 Favourited: <%= pluralize(@p.favourites.count, "time") %>
 
 <h2>Tasks</h2>
-<%= link_to("Add Task", new_project_task_path(@p), class: "btn btn-primary") %>
+<%= link_to("Add Task", new_project_task_path(@p), class: "btn btn-primary", remote: true) %>
+<div id="add_task_container"></div>
 
-<% if @tasks_done.blank? && @tasks_not_done.blank? %>
-  <p>none</p>
-<% else %>
-  <h4>Not Done</h4>
-  <% if @tasks_not_done.blank? %>
-    <p>none</p>
-  <% else %>
-    <% @tasks_not_done.each do |task| %>
-      <div class="well">
-        <%= task.title %>
-        <%= link_to "Show", project_task_path(@p, task), class: "btn btn-sm btn-primary pull-right"%>
-        <div class="time pull-right">Due: <%= task.due_date.to_formatted_s(:short) if task.due_date %></div>
-      </div>
-    <% end %>
-  <% end %>
 
-  <h4>Done</h4>
-  <% if @tasks_done.blank? %>
-    <p>none</p>
-  <% else %>
-    <% @tasks_done.each do |task| %>
-      <div class="well">
-        <%= task.title %>
-        <%= link_to "Show", project_task_path(@p, task), class: "btn btn-primary btn-sm pull-right"%>
-        <div class="time pull-right">Due: <%= task.due_date.to_formatted_s(:short) if task.due_date%></div>
-      </div>
-    <% end %>
-  <% end %>
-<% end %>
+<%= render "/projects/task_list" %>
 
 
 <%= link_to("View Discussions (#{@p.discussions.length})", project_discussions_path(@p), class: "btn btn-primary") %>

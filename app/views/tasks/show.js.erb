@@ -1,0 +1,12 @@
+if ($("#show_<%= dom_id(@task) %>").length === 0) {
+  $("#<%= dom_id(@task) %>").append("<%= j render '/tasks/show' %>");
+  $("#show_<%= dom_id(@task) %>").slideDown();
+  $("#show_button_<%= dom_id(@task) %>").html("Hide");
+  $("#<%= dom_id(@task) %> .time").hide();
+} else {
+  $("#show_<%= dom_id(@task) %>").slideUp(function() {
+    this.remove();
+    $("#show_button_<%= dom_id(@task) %>").html("Show");
+    $("#<%= dom_id(@task) %> .time").show();
+  });
+}

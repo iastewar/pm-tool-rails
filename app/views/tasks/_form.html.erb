@@ -1,0 +1,9 @@
+<div id="add_a_task" style="display: none;">
+  <h1>Add a Task</h1>
+  <%= simple_form_for [@p, @task], remote: true do |f| %>
+    <%= f.input :title %>
+    <%= f.input :due_date %>
+    <%= f.input :body %>
+    <%= f.submit class: "btn btn-primary" %>
+  <% end %>
+</div>

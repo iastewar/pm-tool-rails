@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  before_action :find_project, only: [:new, :create, :edit, :update, :show]
-  before_action :find_task, only: [:show, :edit, :update, :destroy]
+  before_action :find_project, only: [:new, :create, :edit, :update, :show, :done]
+  before_action :find_task, only: [:show, :edit, :update, :destroy, :done]
   before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy, :done]
 
 
@@ -14,20 +14,26 @@ class TasksController < ApplicationController
     @task.done = false
     @task.user = current_user
 
-    if @task.save
-      redirect_to project_path(@p), notice: "Task created succussfully!"
-    else
-      @tasks_done = @p.tasks.where(done: true)
-      @tasks_not_done = @p.tasks.where(done: false)
-      render :new
+    respond_to do |format|
+      if @task.save
+        format.html { redirect_to project_path(@p), notice: "Task created succussfully!" }
+        format.js { render :create_success }
+      else
+        @tasks_done = @p.tasks.where(done: true)
+        @tasks_not_done = @p.tasks.where(done: false)
+        format.html { render :new }
+        format.js { render :create_failure}
+      end
     end
   end
 
   def destroy
-    redirect_to project_task_path(@p, @task), alert: "Access denied." and return unless can? :destroy, @task
-    task.destroy
-    redirect_to project_path(task.project), notice: "Task deleted"
-
+    respond_to do |format|
+      redirect_to project_task_path(@p, @task), alert: "Access denied." and return unless can? :destroy, @task
+      @task.destroy
+      format.html { redirect_to project_path(@task.project), notice: "Task deleted" }
+      format.js { render }
+    end
   end
 
   def edit
@@ -36,26 +42,32 @@ class TasksController < ApplicationController
 
   def update
     redirect_to project_task_path(@p, @task), alert: "Access denied." and return unless can? :update, @task
-    if @task.update task_params
-      redirect_to project_path(@p)
-    else
-      render :edit
+    respond_to do |format|
+      if @task.update task_params
+        format.html { redirect_to project_path(@p) }
+        format.js { render :update_success }
+      else
+        format.html { render :edit }
+        format.js { render :update_failure }
+      end
     end
   end
 
   def done
-    task = Task.find_by_id params[:id]
-    redirect_to project_task_path(task.project, task), alert: "Access denied." and return unless can? :update, task
-    task.done = task.done ^= true
-    if task.done
-      TasksMailer.notify_task_owner(task, current_user).deliver_later
+    redirect_to project_task_path(@task.project, @task), alert: "Access denied." and return unless can? :update, @task
+    @task.done = @task.done ^= true
+    if @task.done
+      TasksMailer.notify_task_owner(@task, current_user).deliver_later
       done = "'Done'"
     else
       done = "'Not Done'"
     end
-    task.save
-    redirect_to project_path(task.project), notice: "#{task.title} marked as #{done}"
-  end
+    @task.save
+    respond_to do |format|
+      format.html { redirect_to project_path(task.project), notice: "#{@task.title} marked as #{done}" }
+      format.js { render :done }
+    end
+end
 
   def show
 

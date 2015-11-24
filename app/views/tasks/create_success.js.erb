@@ -1,0 +1,4 @@
+$("#tasks_not_done").append("<%= j(render('/tasks/task', {task: @task})) %>");
+
+<% @task = Task.new %>
+$("#add_a_task").replaceWith("<%= j render 'form' %>");

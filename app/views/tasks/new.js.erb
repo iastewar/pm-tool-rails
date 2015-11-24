@@ -1,0 +1,8 @@
+if ($("#add_a_task").length === 0) {
+  $("#add_task_container").append("<%= j render '/tasks/form' %>");
+  $("#add_a_task").slideDown();
+} else {
+  $("#add_a_task").slideUp(function() {
+    this.remove();
+  });
+}

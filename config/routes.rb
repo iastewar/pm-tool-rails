@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get "/about" => "home#about"
 
   resources :projects do
+    resources :assets
+
     resources :tasks do
       post :done, on: :member
     end
