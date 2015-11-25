@@ -1,0 +1,17 @@
+<div id="discussions_index" style="display: none">
+
+  <% if @discussion.persisted? %>
+    <h2 id="add_discussion_heading">Editing Discussion</h2>
+  <% else %>
+    <h2 id="add_discussion_heading">Add a Discussion</h2>
+  <% end %>
+  <%= render "/discussions/form" %>
+
+
+  <div id="discussions">
+    <% @discussions.each do |discussion| %>
+      <%= render "/discussions/discussion", discussion: discussion %>
+    <% end %>
+  </div>
+
+</div>

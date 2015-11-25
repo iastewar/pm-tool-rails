@@ -2,9 +2,9 @@
 <%= link_to("New Project", new_project_path, class: "btn btn-primary") %>
 <div>
   <% @projects.each do |p| %>
-    <div class="well">
+    <div class="well clickable_html">
         <%= p.title %>
-        <%= link_to "Show", project_path(p), class: "btn btn-primary btn-sm pull-right" %>
+        <%= link_to "Show", project_path(p), class: "btn btn-primary btn-sm pull-right", style: "display: none" %>
         <div class="pull-right owned"><%= "#{pluralize(p.tasks.length, "Task")}, #{pluralize(p.discussions.length, "Discussion")}" %></div>
     </div>
   <% end %>

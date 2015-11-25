@@ -1,0 +1,5 @@
+<div class="well clickable_html" id="<%= dom_id(discussion) %>">
+  <%= discussion.title %>
+  <%= link_to "Show", project_discussion_path(@p, discussion), class: "btn btn-primary btn-sm pull-right", style: "display: none"%>
+  <div class="owned pull-right"><%= "#{discussion.comments.length} Comments" %></div>
+</div>

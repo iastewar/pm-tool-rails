@@ -1,0 +1,6 @@
+if (!$("#edit_btn_<%= dom_id(@comment) %>").attr("disabled")) {
+  $("#new_comment").replaceWith("<%= j render 'form' %>");
+  $("#add_comment_heading").html("Editing Comment...");
+  $("#edit_btn_<%= dom_id(@comment) %>").html("Editing...");
+  $(".edit_comment.btn").attr("disabled", true);
+}

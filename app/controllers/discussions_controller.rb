@@ -8,11 +8,15 @@ class DiscussionsController < ApplicationController
     @discussion.project = @p
     @discussion.user = current_user
 
-    if @discussion.save
-      redirect_to project_discussions_path(@p), notice: "Discussion created succussfully!"
-    else
-      @discussions = @p.discussions.order(created_at: :desc)
-      render "discussions/index"
+    respond_to do |format|
+      if @discussion.save
+        format.html { redirect_to project_discussions_path(@p), notice: "Discussion created succussfully!" }
+        format.js { render :create_success }
+      else
+        @discussions = @p.discussions.order(created_at: :desc)
+        format.html { render "discussions/index" }
+        format.js { render :create_failure }
+      end
     end
   end
 

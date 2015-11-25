@@ -1,32 +1,15 @@
 <h1><%= @p.title %>: Discussions</h1>
 
 <% if @discussion.persisted? %>
-  <h2>Editing Discussion</h2>
+  <h2 id="add_discussion_heading">Editing Discussion</h2>
 <% else %>
-  <h2>Add a Discussion</h2>
+  <h2 id="add_discussion_heading">Add a Discussion</h2>
 <% end %>
-<%= @discussion.errors.full_messages.join(", ") %>
-<%= form_for [@p, @discussion] do |f| %>
-  <div class="form-group">
-    <%= f.label :title %>
-    <%= f.text_field :title, value: @discussion.title, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label :description %>
-    <%= f.text_area :description, value: @discussion.description, class: "form-control" %>
-  </div>
-  <%= f.submit class: "btn btn-primary" %>
-<% end %>
+<%= render "/discussions/form" %>
 
 
-<% if @discussions.blank? %>
-  <p>none</p>
-<% else %>
+<div id="discussions">
   <% @discussions.each do |discussion| %>
-    <div class="well">
-      <%= discussion.title %>
-      <%= link_to "Show", project_discussion_path(@p, discussion), class: "btn btn-primary btn-sm pull-right"%>
-      <div class="owned pull-right"><%= "#{discussion.comments.length} Comments" %></div>
-    </div>
+    <%= render "/discussions/discussion", discussion: discussion %>
   <% end %>
-<% end %>
+</div>

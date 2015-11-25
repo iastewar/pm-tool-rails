@@ -5,3 +5,18 @@
 .time {
   margin-right: 1%;
 }
+
+.clickable_html {
+  cursor: pointer;
+}
+
+.clickable_html:hover {
+  border: 1px;
+  border-style: solid;
+  background-color: #DDDDDD;
+}
+
+.clickable_js:hover {
+  border: 1px;
+  border-style: solid;
+}

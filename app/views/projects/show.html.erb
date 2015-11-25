@@ -67,4 +67,5 @@ Favourited: <%= pluralize(@p.favourites.count, "time") %>
 <%= render "/projects/task_list" %>
 
 
-<%= link_to("View Discussions (#{@p.discussions.length})", project_discussions_path(@p), class: "btn btn-primary") %>
+<%= link_to("View Discussions (#{@p.discussions.length})", project_discussions_path(@p), class: "btn btn-primary", id: "view_discussions_btn", remote: true) %>
+<div id="view_discussions_container"></div>

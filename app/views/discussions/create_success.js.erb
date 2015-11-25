@@ -1,0 +1,4 @@
+$("#discussions").prepend("<%= j(render('/discussions/discussion', {discussion: @discussion})) %>");
+
+<% @discussion = Discussion.new %>
+$("#new_discussion").replaceWith("<%= j render 'form' %>");

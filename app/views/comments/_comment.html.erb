@@ -1,0 +1,12 @@
+<div class="well" id="<%= dom_id(comment) %>">
+  <%= comment.body %>
+  <% if can? :destroy, comment %>
+    <%= link_to "Delete", project_discussion_comment_path(@p, @discussion, comment), method: :delete, class: "btn btn-danger btn-sm pull-right", data: {confirm: "Are you sure?"}, remote: true %>
+  <% end %>
+  <% if can? :edit, comment %>
+    <%= link_to "Edit", edit_project_discussion_comment_path(@p, @discussion, comment), class: "btn btn-info btn-sm pull-right edit_comment", id: "edit_btn_#{dom_id(comment)}", remote: true %>
+  <% end %>
+  <div class="pull-right owned">
+    <%= comment.user.first_name %> <%= comment.user.last_name %>
+  </div>
+</div>

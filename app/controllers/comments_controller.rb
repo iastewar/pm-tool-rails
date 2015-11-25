@@ -11,34 +11,48 @@ class CommentsController < ApplicationController
     @comment.discussion = @discussion
     @comment.user = current_user
 
-    if @comment.save
-      CommentsMailer.notify_discussion_owner(@comment).deliver_later
-      redirect_to project_discussion_path(@p, @discussion), notice: "Comment created succussfully!"
-    else
-      @comments = @discussion.comments.order(created_at: :desc)
-      render "discussions/show"
+    respond_to do |format|
+      if @comment.save
+        CommentsMailer.notify_discussion_owner(@comment).deliver_later
+        format.html { redirect_to project_discussion_path(@p, @discussion), notice: "Comment created succussfully!" }
+        format.js { render :create_success }
+      else
+        @comments = @discussion.comments.order(created_at: :desc)
+        format.html { render "discussions/show" }
+        format.js { render :create_failure }
+      end
     end
   end
 
   def destroy
     redirect_to project_discussion_path(@p, @discussion), alert: "Access denied." and return unless can? :destroy, @comment
-    @comment.destroy
-    redirect_to project_discussion_path(params[:project_id], params[:discussion_id]), notice: "Comment deleted"
+    respond_to do |format|
+      @comment.destroy
+      format.html { redirect_to project_discussion_path(params[:project_id], params[:discussion_id]), notice: "Comment deleted" }
+      format.js { render }
+    end
   end
 
   def edit
-    redirect_to project_discussion_path(@p, @discussion), alert: "Access denied." and return unless can? :edit, @comment
-    @comments = @discussion.comments.order(created_at: :desc)
-    render "discussions/show"
+    respond_to do |format|
+      redirect_to project_discussion_path(@p, @discussion), alert: "Access denied." and return unless can? :edit, @comment
+      @comments = @discussion.comments.order(created_at: :desc)
+      format.html { render "discussions/show" }
+      format.js { render }
+    end
   end
 
   def update
     redirect_to project_discussion_path(@p, @discussion), alert: "Access denied." and return unless can? :update, @comment
-    if @comment.update comment_params
-      redirect_to project_discussion_path(@p, @discussion)
-    else
-      @comments = @discussion.comments.order(created_at: :desc)
-      render "discussions/show"
+    respond_to do |format|
+      if @comment.update comment_params
+        format.html { redirect_to project_discussion_path(@p, @discussion) }
+        format.js { render :update_success }
+      else
+        @comments = @discussion.comments.order(created_at: :desc)
+        format.html { render "discussions/show" }
+        format.js { render :update_failure }
+      end
     end
   end
 

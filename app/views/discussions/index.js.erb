@@ -1,0 +1,10 @@
+if ($("#discussions_index").length === 0) {
+  $("#view_discussions_container").append("<%= j render '/discussions/index' %>")
+  $("#discussions_index").slideDown();
+  $("#view_discussions_btn").html("Hide Discussions");
+} else {
+  $("#view_discussions_btn").html("Show Discussions");
+  $("#discussions_index").slideUp(function() {
+    $(this).remove();
+  });
+}

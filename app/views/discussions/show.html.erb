@@ -10,36 +10,15 @@
 <% end %>
 
 <% if @comment.persisted? %>
-  <h2>Editing Comment</h2>
+  <h2 id="add_comment_heading">Editing Comment</h2>
 <% else %>
-  <h2>Add a Comment</h2>
+  <h2 id="add_comment_heading">Add a Comment</h2>
 <% end %>
-<%= @comment.errors.full_messages.join(", ") %>
-<%= form_for [@p, @discussion, @comment] do |f| %>
-  <div class="form-group">
-    <%= f.label :body %>
-    <%= f.text_area :body, value: @comment.body, class: "form-control" %>
-  </div>
-  <%= f.submit class: "btn btn-primary" %>
-<% end %>
-
+<%= render "/comments/form" %>
 
 <h2>Comments</h2>
-<% if @comments.blank? %>
-  <p>none</p>
-<% else %>
+<div id="comments">
   <% @comments.each do |comment| %>
-    <div class="well">
-      <%= comment.body %>
-      <% if can? :destroy, comment %>
-        <%= link_to "Delete", project_discussion_comment_path(@p, @discussion, comment), method: :delete, class: "btn btn-danger btn-sm pull-right", data: {confirm: "Are you sure?"}%>
-      <% end %>
-      <% if can? :edit, comment %>
-        <%= link_to "Edit", edit_project_discussion_comment_path(@p, @discussion, comment), class: "btn btn-info btn-sm pull-right" %>
-      <% end %>
-      <div class="pull-right owned">
-        <%= comment.user.first_name %> <%= comment.user.last_name %>
-      </div>
-    </div>
+    <%= render "/comments/comment", comment: comment %>
   <% end %>
-<% end %>
+</div>

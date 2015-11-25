@@ -1,0 +1,4 @@
+$("#comments").prepend("<%= j(render('/comments/comment', {comment: @comment})) %>");
+
+<% @comment = Comment.new %>
+$("#new_comment").replaceWith("<%= j render 'form' %>");
